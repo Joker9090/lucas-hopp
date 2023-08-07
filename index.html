@@ -64,10 +64,11 @@
       animation: animatingOpacity 10s 0s ease forwards;
     }
     #canvas-1 {
+      opacity: 0;
       position: absolute;
       width: 100%;
       height: 100%;
-      animation: scaling2 20s 5s infinite alternate;
+      animation: scaling2 20s 8s infinite alternate;
     }
     #canvas-1:after {
       content: "";
@@ -81,10 +82,11 @@
       animation: animatingOpacity2 10s 0s ease forwards;
     }
     #canvas-2 {
+      opacity: 0;
       position: absolute;
       width: 100%;
       height: 100%;
-      animation: scaling2 20s 10s infinite alternate;
+      animation: scaling2 20s 16s infinite alternate;
     }
     @keyframes animatingOpacity {
       0% {
@@ -115,14 +117,14 @@
     @keyframes scaling2 {
       0% {
         opacity: 0;
-        transform: scale(1);
+        transform: scale(1.4);
       }
       50% {
         opacity: 1;
-        transform: scale(0.7);
+        transform: scale(1.2);
       }
       100% {
-        transform: scale(0.5);
+        transform: scale(0.9);
       }
     }
     body {
@@ -189,7 +191,7 @@
         // Or the path to a public Rive asset
         // src: '/public/example.riv',
         layout: new rive.Layout({
-          fit: "cover", alignment: "center"
+          fit: id == 0 ? "cover" : "contain", alignment: "center"
         }),
         canvas: document.querySelector(`#canvas-${id} canvas`),
         autoplay: true,
@@ -199,7 +201,7 @@
         },
       });
     }
-    const interval = 6000;
+    const interval = 8000;
     canvases.forEach((canvas) => {
       setTimeout(() => {
         runRive(canvas)

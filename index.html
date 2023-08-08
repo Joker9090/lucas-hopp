@@ -202,16 +202,17 @@
     <div id="canvas-1"><canvas></canvas></div>
     <div id="canvas-2"><canvas></canvas></div>
   </div>
-  <div id="logo"><img src="./revolutionise.svg"></div>
+  <div id="logo"><img src="./revolutionise2.svg"></div>
   <script>
     const canvases = [0,1,2]
     // create a for to iterate canvases and create a rive component using the id canvas+number
     const runRive = (id) => {
       const r = new rive.Rive({
         // src: "https://cdn.rive.app/animations/vehicles.riv",
-        src: "./lineas_final.riv",
+        src: "./lineas_cambio_color2.riv",
         // Or the path to a public Rive asset
         // src: '/public/example.riv',
+        artboard: "ANIM FINAL",
         layout: new rive.Layout({
           fit: id == 0 ? "cover" : "contain", alignment: "center"
         }),

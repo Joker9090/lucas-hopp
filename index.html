@@ -41,14 +41,11 @@
     */
     #canvas-0 {
       position: absolute;
-      transform: scale(1.2);
       width: 100%;
       height: 100%;
-      animation: scaling1 20s 0s infinite alternate;
-      transform: scale(1,0.5);
     }
     
-    #canvas-0 canvas, #canvas-1 canvas, #canvas-2 canvas, #canvas-3 canvas, #canvas-4 canvas, #canvas-5 canvas {
+    #canvas-0 canvas {
       position: absolute;
       width: 100%;
       height: 100%;
@@ -64,70 +61,7 @@
       opacity: 0;
       /*animation: animatingOpacity 10s 0s ease forwards;*/
     }
-    #canvas-1:after {
-      content: "";
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      margin: auto;
-      top: 10px;
-      bottom: 0px;
-      /*background-color: #000;*/
-      opacity: 0;
-      /*animation: animatingOpacity2 10s 0s ease forwards; */
-    }
-    #canvas-1{
-      opacity: 0;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform: scale(0.7, 1);
-      animation: scaling2 20s 3s infinite alternate;
-      margin: auto;
-      top: 10px;
-      bottom: 0px;
-    }
-    #canvas-2 {
-      opacity: 0;
-      position: absolute;
-      margin: auto;
-      width: 90%;
-      left: 0;
-      right: 0;
-      height: 100%;
-      animation: scaling2 20s 4s infinite alternate;
-      margin: auto;
-      top: 10px;
-      bottom: 0px;
-      /* transform: scale(1, 0.6); */
-    }
-    #canvas-3 {
-      position: absolute;
-      width: 100%;
-      height: 90%;
-      transform: scaleX(-1);
-      margin: auto;
-      top: 0px;
-      bottom: 0px;
-    }
-    #canvas-4 {
-      position: absolute;
-      transform: scale(1.2);
-      width: 100%;
-      height: 100%;
-      animation: scaling1 20s 0s infinite alternate;
-      transform: scale(1,0.5);
-    }
-    #canvas-5 {
-      opacity: 0;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform: scale(0.7, 1);
-      animation: scaling2 20s 3s infinite alternate;
-    }
+    
     @keyframes animatingOpacityScale {
       0% {
         transform: scale(0.8);
@@ -238,67 +172,24 @@
   <div class="header"><img src="./logoprovisorios.png"><canvas id="canvas-header"></canvas></div>
   <div class="holder">
     <div id="canvas-0"><canvas></canvas></div>
-    <div id="canvas-1"><canvas id="transform0"></canvas></div>
-    <div id="canvas-2"><canvas id="transform1"></canvas></div>
-    <div id="canvas-3"><canvas id="transform2"></canvas></div>
-<!-- 
-    <div id="canvas-3"><canvas></canvas></div>
-    <div id="canvas-4"><canvas></canvas></div>
-    <div id="canvas-5"><canvas id="transform2"></canvas></div>
-     -->
   </div>
   <div id="logo"><img src="./revolutionise2.svg"></div>
   <script>
-    const canvases = [0,1,2,3/*,3,4,5 */]
-    // const canvases = [0,1]
-    // create a for to iterate canvases and create a rive component using the id canvas+number
-    const runRive = (id) => {
       const r = new rive.Rive({
-        // src: "https://cdn.rive.app/animations/vehicles.riv",
-        src: (id== 3) ? "./lineas_color_sin dots.riv" : "./lineas_final_1.riv",
-        // Or the path to a public Rive asset
-        // src: '/public/example.riv',
-        artboard: "ANIM FINAL",
+        src: "./final_tres_anims_.riv",
+        artboard: "FinalTresAnims",
         layout: new rive.Layout({
-          // fit: rive.Fit.Fill,
-          // fit: id == 0 ? "cover" : rive.Fit.Fill, 
-          fit: id == 1 ? rive.Fit.ScaleDown : 
-          id == 0 ? rive.Fit.Fill :
-          id == 2 ? rive.Fit.ScaleDown : 
-          id == 5 ? rive.Fit.ScaleDown :rive.Fit.Fill, 
+          fit: rive.Fit.FitWidth,
           alignment: "center"
         }),
-        canvas: document.querySelector(`#canvas-${id} canvas`),
+        canvas: document.querySelector(`#canvas-0 canvas`),
         autoplay: true,
         stateMachines: "State Machine 1",
         onLoad: () => {
-          console.log("r",r.renderer.Fa.getAttribute("id") )
-          if(r.renderer.Fa.getAttribute("id") == "transform1") {
-            setTimeout(() => {
-              document.querySelector(`#canvas-2 canvas`).setAttribute("style", "transform: scale(2,2);")
-            },10)
-          }
-          if(r.renderer.Fa.getAttribute("id") == "transform0") {
-            setTimeout(() => {
-              document.querySelector(`#canvas-1 canvas`).setAttribute("style", "transform: scale(1,2.5);")
-            },10)
-          }
-          if(r.renderer.Fa.getAttribute("id") == "transform2") {
-            setTimeout(() => {
-              document.querySelector(`#canvas-5 canvas`).setAttribute("style", "transform: scale(1,2.5);")
-            },10)
-          }
           r.resizeDrawingSurfaceToCanvas();
         },
       });
-    }
-    //const interval = 8000;
-    const interval = 10;
-    canvases.forEach((canvas) => {
-      setTimeout(() => {
-        runRive(canvas)
-      }, interval * canvas)
-    })
+    
     
     const rHeader = new rive.Rive({
       // src: "https://cdn.rive.app/animations/vehicles.riv",

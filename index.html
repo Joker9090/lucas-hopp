@@ -56,7 +56,7 @@
     }
 
     #canvas-0 video {
-      opacity: 0;
+      /* opacity: 0; */
       position: absolute;
       /*
       width: 100%;
@@ -201,7 +201,7 @@
 
     <div id="canvas-0">
       <video autoplay muted id="video"
-        src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+        src="./output.mp4"></video>
       <canvas></canvas>
     </div>
   </div>
@@ -218,7 +218,7 @@
     let webglUrl = "https://unpkg.com/@rive-app/webgl@2.1.0"
     
     function runRive() {
-      let type = "rive"
+      let type = browser != "SAFARI" ? "rive" : "video";
       if (type == "rive") {
         const r = new rive.Rive({
           src: "./final_tres_animsDOBLE.riv",
@@ -269,38 +269,40 @@
       }
     }
 
-    alert(browser)
+    alert("v2 "+browser)
     let script = document.createElement('script');
     script.src = browser != "SAFARI" ? canvasUrl : webglUrl;
     script.onload = function () {
       runRive()
+      // Extras 
+      const rHeader = new rive.Rive({
+        // src: "https://cdn.rive.app/animations/vehicles.riv",
+        src: "./anim_rana_final.riv",
+        // Or the path to a public Rive asset
+        // src: '/public/example.riv',
+        layout: new rive.Layout({
+          fit: "contain", alignment: "CenterLeft"
+        }),
+        canvas: document.getElementById("canvas-header"),
+        autoplay: true,
+        stateMachines: "State Machine 1",
+        onLoad: () => {
+          rHeader.resizeDrawingSurfaceToCanvas();
+        },
+      });
+      document.getElementById("canvas-header").addEventListener("click", () => {
+        // rHeader.play("State Machine 1");
+        const inputs = rHeader.stateMachineInputs('State Machine 1');
+        const colorTrigger = inputs.find(i => i.name === 'color');
+        colorTrigger.value = !colorTrigger.value;
+      })
     };
 
     document.head.appendChild(script);
 
 
     
-    const rHeader = new rive.Rive({
-      // src: "https://cdn.rive.app/animations/vehicles.riv",
-      src: "./anim_rana_final.riv",
-      // Or the path to a public Rive asset
-      // src: '/public/example.riv',
-      layout: new rive.Layout({
-        fit: "contain", alignment: "CenterLeft"
-      }),
-      canvas: document.getElementById("canvas-header"),
-      autoplay: true,
-      stateMachines: "State Machine 1",
-      onLoad: () => {
-        rHeader.resizeDrawingSurfaceToCanvas();
-      },
-    });
-    document.getElementById("canvas-header").addEventListener("click", () => {
-      // rHeader.play("State Machine 1");
-      const inputs = rHeader.stateMachineInputs('State Machine 1');
-      const colorTrigger = inputs.find(i => i.name === 'color');
-      colorTrigger.value = !colorTrigger.value;
-    })
+   
   </script>
 </body>
 

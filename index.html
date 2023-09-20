@@ -7,7 +7,7 @@
   <title>Document</title>
   <!-- <script src="https://unpkg.com/@rive-app/canvas@2.1.0"></script> -->
   <script src="https://unpkg.com/@rive-app/webgl@2.1.0"></script>
-  
+
 </head>
 
 <body>
@@ -51,11 +51,12 @@
 
     #canvas-0 canvas {
       position: absolute;
-      
+
       width: 100%;
       height: 100%;
-      
+
     }
+
     #canvas-0 video {
       opacity: 0;
       position: absolute;
@@ -199,87 +200,88 @@
 
   <div class="header"><img src="./logoprovisorios.png"><canvas id="canvas-header"></canvas></div>
   <div class="holder">
-    
+
     <div id="canvas-0">
-      <video autoplay muted id="video" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+      <video autoplay muted id="video"
+        src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
       <canvas></canvas>
     </div>
   </div>
   <div id="logo"><img src="./revolutionise2.svg"></div>
   <script>
-    /*
-    Contain
-: 
-"contain"
-Cover
-: 
-"cover"
-Fill
-: 
-"fill"
-FitHeight
-: 
-"fitHeight"
-FitWidth
-: 
-"fitWidth"
-None
-: 
-"none"
-ScaleDown
-: 
-"scaleDown"
-*/
-    let type = "rive"
-    if (type == "rive") {
-      const r = new rive.Rive({
-        src: "./final_tres_animsDOBLE.riv",
-        artboard: "FinalTresAnims",
-        useOffscreenRenderer: true,
-        layout: new rive.Layout({
-          alignment: "center",
-          fit: "contain",
-          /*
-          fit: rive.Fit.Contain,
-          minX: 50,
-          minY: 50,
-          maxX: 60,
-          maxY: 60,
-          */
-        }),
-        canvas: document.querySelector(`#canvas-0 canvas`),
-        autoplay: true,
-        stateMachines: "State Machine 1",
-        onLoad: () => {
-          r.resizeDrawingSurfaceToCanvas();
-        },
-      });
+    
+    let browser = "NOT-SAFARI"
 
+    if (!navigator.userAgent.includes('Chrome') && navigator.userAgent.includes('Safari')) {
+      browser = "SAFARI"
     }
-    if (type == "video") {
-      // This will copy the contents of video element to a canvas element
 
-      let canvasEl = document.querySelector(`#canvas-0 canvas`);
-      let context = canvasEl.getContext('2d');
-      let videoEl = document.querySelector(`#canvas-0 video`);
+    let canvasUrl = "https://unpkg.com/@rive-app/canvas@2.1.0"
+    let webglUrl = "https://unpkg.com/@rive-app/webgl@2.1.0"
+    
+    function runRive() {
+      let type = "rive"
+      if (type == "rive") {
+        const r = new rive.Rive({
+          src: "./final_tres_animsDOBLE.riv",
+          artboard: "FinalTresAnims",
+          useOffscreenRenderer: true,
+          layout: new rive.Layout({
+            alignment: "center",
+            fit: "contain",
+            /*
+            fit: rive.Fit.Contain,
+            minX: 50,
+            minY: 50,
+            maxX: 60,
+            maxY: 60,
+            */
+          }),
+          canvas: document.querySelector(`#canvas-0 canvas`),
+          autoplay: true,
+          stateMachines: "State Machine 1",
+          onLoad: () => {
+            r.resizeDrawingSurfaceToCanvas();
+          },
+        });
 
-      function updateCanvas() {
-
-       
-        // fill horizontally  
-        var hratio = (canvasEl.width / videoEl.videoWidth) * videoEl.videoHeight;
-        context.drawImage(videoEl, 0,0, canvasEl.width, hratio);  
-        
-        // context.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
-        
-      
-
-        window.requestAnimationFrame(updateCanvas);
       }
+      if (type == "video") {
+        // This will copy the contents of video element to a canvas element
 
-      requestAnimationFrame(updateCanvas);
+        let canvasEl = document.querySelector(`#canvas-0 canvas`);
+        let context = canvasEl.getContext('2d');
+        let videoEl = document.querySelector(`#canvas-0 video`);
+
+        function updateCanvas() {
+
+
+          // fill horizontally  
+          var hratio = (canvasEl.width / videoEl.videoWidth) * videoEl.videoHeight;
+          context.drawImage(videoEl, 0, 0, canvasEl.width, hratio);
+
+          // context.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
+
+
+
+          window.requestAnimationFrame(updateCanvas);
+        }
+
+        requestAnimationFrame(updateCanvas);
+      }
     }
 
+    alert(browser)
+    let script = document.createElement('script');
+    script.src = browser == "SAFARI" ? canvasUrl : webglUrl;
+    script.onload = function () {
+      runRive()
+    };
+
+    document.head.appendChild(script);
+
+
+    
     const rHeader = new rive.Rive({
       // src: "https://cdn.rive.app/animations/vehicles.riv",
       src: "./anim_rana_final.riv",

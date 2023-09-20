@@ -5,8 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <!-- <script src="https://unpkg.com/@rive-app/canvas@2.1.0"></script> -->
-  <script src="https://unpkg.com/@rive-app/webgl@2.1.0"></script>
 
 </head>
 
@@ -273,7 +271,7 @@
 
     alert(browser)
     let script = document.createElement('script');
-    script.src = browser == "SAFARI" ? canvasUrl : webglUrl;
+    script.src = browser != "SAFARI" ? canvasUrl : webglUrl;
     script.onload = function () {
       runRive()
     };

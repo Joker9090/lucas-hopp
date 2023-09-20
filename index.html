@@ -5,7 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://unpkg.com/@rive-app/canvas@2.1.0"></script>
+  <!-- <script src="https://unpkg.com/@rive-app/canvas@2.1.0"></script> -->
+  <script src="https://unpkg.com/@rive-app/webgl@2.1.0"></script>
+  
 </head>
 
 <body>
@@ -18,6 +20,7 @@
       height: 100%;
       background-color: #003336;
     }
+
     .holder {
       position: absolute;
       top: 0px;
@@ -26,6 +29,7 @@
       height: 100%;
       overflow: hidden;
     }
+
     /*
     .holder:after {
       content: "";
@@ -44,13 +48,23 @@
       width: 100%;
       height: 100%;
     }
-    
+
     #canvas-0 canvas {
       position: absolute;
+      
       width: 100%;
       height: 100%;
       
     }
+    #canvas-0 video {
+      opacity: 0;
+      position: absolute;
+      /*
+      width: 100%;
+      height: 100%;
+      */
+    }
+
     #canvas-0:after {
       content: "";
       position: absolute;
@@ -62,12 +76,13 @@
       opacity: 0;
       /*animation: animatingOpacity 10s 0s ease forwards;*/
     }
-    
+
     @keyframes animatingOpacityScale {
       0% {
         transform: scale(0.8);
         opacity: 0;
       }
+
       100% {
         transform: scale(1);
 
@@ -75,54 +90,66 @@
       }
 
     }
+
     @keyframes animatingOpacity {
       0% {
         opacity: 0;
       }
+
       100% {
         opacity: 0.7;
       }
 
     }
+
     @keyframes animatingOpacity2 {
       0% {
         opacity: 0;
       }
+
       100% {
         opacity: 0.3;
       }
 
     }
+
     @keyframes scaling1 {
       0% {
-        transform: scale(1, 1) ;
+        transform: scale(1, 1);
       }
+
       100% {
-        transform: scale(1.2, 1.1) ;
+        transform: scale(1.2, 1.1);
       }
     }
+
     @keyframes scaling2 {
       0% {
         opacity: 0;
         transform: scale(0.9, 0.5);
       }
+
       10% {
         opacity: 1;
       }
+
       50% {
         opacity: 1;
         transform: scale(1, 0.6);
       }
+
       100% {
         opacity: 1;
         transform: scale(1, 0.6);
       }
     }
+
     body {
       position: relative;
       height: 100vh;
       width: 100%;
     }
+
     #logo {
       position: absolute;
       top: 0px;
@@ -132,6 +159,7 @@
       bottom: 0px;
       margin: auto;
     }
+
     #logo img {
       object-fit: contain;
       margin: auto;
@@ -145,12 +173,13 @@
       opacity: 0;
       animation: animatingOpacityScale 2s 3s ease forwards;
     }
+
     #canvas-header {
       width: 90px;
       height: 90px;
       cursor: pointer;
     }
-    
+
     .header {
       position: fixed;
       top: 0px;
@@ -163,16 +192,18 @@
       align-items: center;
       padding: 0px 30px;
     }
-    .header img {
 
-    }
-    
+    .header img {}
   </style>
 
 
   <div class="header"><img src="./logoprovisorios.png"><canvas id="canvas-header"></canvas></div>
   <div class="holder">
-    <div id="canvas-0"><canvas></canvas></div>
+    
+    <div id="canvas-0">
+      <video autoplay muted id="video" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"></video>
+      <canvas></canvas>
+    </div>
   </div>
   <div id="logo"><img src="./revolutionise2.svg"></div>
   <script>
@@ -199,12 +230,15 @@ ScaleDown
 : 
 "scaleDown"
 */
+    let type = "rive"
+    if (type == "rive") {
       const r = new rive.Rive({
         src: "./final_tres_animsDOBLE.riv",
         artboard: "FinalTresAnims",
+        useOffscreenRenderer: true,
         layout: new rive.Layout({
           alignment: "center",
-          fit: "cover",
+          fit: "contain",
           /*
           fit: rive.Fit.Contain,
           minX: 50,
@@ -220,8 +254,32 @@ ScaleDown
           r.resizeDrawingSurfaceToCanvas();
         },
       });
-    
-    
+
+    }
+    if (type == "video") {
+      // This will copy the contents of video element to a canvas element
+
+      let canvasEl = document.querySelector(`#canvas-0 canvas`);
+      let context = canvasEl.getContext('2d');
+      let videoEl = document.querySelector(`#canvas-0 video`);
+
+      function updateCanvas() {
+
+       
+        // fill horizontally  
+        var hratio = (canvasEl.width / videoEl.videoWidth) * videoEl.videoHeight;
+        context.drawImage(videoEl, 0,0, canvasEl.width, hratio);  
+        
+        // context.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
+        
+      
+
+        window.requestAnimationFrame(updateCanvas);
+      }
+
+      requestAnimationFrame(updateCanvas);
+    }
+
     const rHeader = new rive.Rive({
       // src: "https://cdn.rive.app/animations/vehicles.riv",
       src: "./anim_rana_final.riv",
@@ -236,14 +294,14 @@ ScaleDown
       onLoad: () => {
         rHeader.resizeDrawingSurfaceToCanvas();
       },
-  });
-  document.getElementById("canvas-header").addEventListener("click", () => {
-    // rHeader.play("State Machine 1");
-    const inputs = rHeader.stateMachineInputs('State Machine 1');
-    const colorTrigger = inputs.find(i => i.name === 'color');
-    colorTrigger.value = !colorTrigger.value;
-  })
-</script>
+    });
+    document.getElementById("canvas-header").addEventListener("click", () => {
+      // rHeader.play("State Machine 1");
+      const inputs = rHeader.stateMachineInputs('State Machine 1');
+      const colorTrigger = inputs.find(i => i.name === 'color');
+      colorTrigger.value = !colorTrigger.value;
+    })
+  </script>
 </body>
 
 </html>

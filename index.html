@@ -82,15 +82,19 @@
     }
 
     #canvas-0:after {
+      transition: all 0.2s ease;
       content: "";
       position: absolute;
       top: 0px;
       left: 0px;
       width: 100%;
       height: 100%;
-      /*background-color: #000;*/
+      background-color: #000;
       opacity: 0;
       /*animation: animatingOpacity 10s 0s ease forwards;*/
+    }
+    #canvas-0.appear:after {
+      opacity: 0.35;
     }
 
     @keyframes animatingOpacityScale {
@@ -219,7 +223,7 @@
     <div id="canvas-0">
       <video autoplay muted id="videoIntro" class="appear"
         src="https://github.com/Joker9090/lucas-hopp/raw/master/videoAparicion.mp4"></video>
-      <video muted id="videoLoop"
+      <video muted id="videoLoop" loop
         src="https://github.com/Joker9090/lucas-hopp/raw/master/videoLineasLoop.mp4"></video>
       <canvas></canvas>
     </div>
@@ -269,7 +273,9 @@
 
       }
       if (type == "video") {
-        let canvass = document.querySelectorAll(`#canvas canvas`)
+        let canvass = document.querySelectorAll(`#canvas-0 canvas`)
+        document.querySelector(`#canvas-0`).classList.add("appear")
+
         // remove canvass
         canvass.forEach((canvas) => {
           canvas.remove()

@@ -46,6 +46,9 @@
       width: 100%;
       height: 100%;
     }
+    #canvas-0.scaled {
+      transform: scale(2);
+    }
 
     #canvas-0 canvas {
       position: absolute;
@@ -251,6 +254,7 @@
     function runRive() {
       let type = browser != "SAFARI" || forceRive ? "rive" : "video";
       if (type == "rive") {
+        
         let videos = document.querySelectorAll(`#canvas-0 video`)
         // remove videos
         videos.forEach((video) => {
@@ -276,6 +280,8 @@
           stateMachines: "State Machine 1",
           onLoad: () => {
             r.resizeDrawingSurfaceToCanvas();
+            document.querySelector("#canvas-0").classList.add("scaled")
+
           },
         });
 

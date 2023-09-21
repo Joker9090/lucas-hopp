@@ -76,7 +76,7 @@
       height: 100%;
       */
     }
-   
+
     #canvas-0 video.appear {
       opacity: 1;
     }
@@ -93,6 +93,7 @@
       opacity: 0;
       /*animation: animatingOpacity 10s 0s ease forwards;*/
     }
+
     #canvas-0.appear:after {
       opacity: 0.35;
     }
@@ -221,10 +222,12 @@
   <div class="holder">
 
     <div id="canvas-0">
-      <video autoplay muted id="videoIntro" class="appear"
-        src="https://github.com/Joker9090/lucas-hopp/raw/master/videoVerdeAparicion.mp4"></video>
-      <video muted id="videoLoop" loop
-        src="https://github.com/Joker9090/lucas-hopp/raw/master/videoVerdeLoop.mp4"></video>
+      <video autoplay muted playsInline id="videoIntro" class="appear">
+        <source src="https://github.com/Joker9090/lucas-hopp/raw/master/videoVerdeAparicion.mp4" type='video/mp4'>
+      </video>
+      <video muted playsInline id="videoLoop" loop>
+        <source src="https://github.com/Joker9090/lucas-hopp/raw/master/videoVerdeLoop.mp4" type='video/mp4'>
+      </video>
       <canvas></canvas>
     </div>
   </div>
@@ -283,7 +286,7 @@
 
         let videoEl = document.querySelector(`#canvas-0 #videoIntro`);
         let videoLoopEl = document.querySelector(`#canvas-0 #videoLoop`);
-        function playLoop () {
+        function playLoop() {
           videoLoopEl.play()
           videoLoopEl.classList.add("appear")
           videoEl.classList.remove("appear")

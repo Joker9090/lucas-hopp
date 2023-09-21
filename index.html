@@ -237,6 +237,8 @@
   <script>
 
     let browser = "NOT-SAFARI"
+    let searchParams = new URLSearchParams(window.location.search);
+    let forceRive = Boolean(searchParams.get('forceRive'))
 
     if (!navigator.userAgent.includes('Chrome') && navigator.userAgent.includes('Safari')) {
       browser = "SAFARI"
@@ -245,9 +247,8 @@
     let canvasUrl = "https://unpkg.com/@rive-app/canvas@2.1.0"
     let webglUrl = "https://unpkg.com/@rive-app/webgl@2.1.0"
 
+
     function runRive() {
-      const searchParams = new URLSearchParams(window.location.search);
-      const forceRive = Boolean(searchParams.get('forceRive'))
       let type = browser != "SAFARI" || forceRive ? "rive" : "video";
       if (type == "rive") {
         let videos = document.querySelectorAll(`#canvas-0 video`)
@@ -320,7 +321,7 @@
       }
     }
 
-    alert("v2 " + browser)
+    alert("v2 " + browser + " ForceRive: "+ forceRive)
     let script = document.createElement('script');
     script.src = browser != "SAFARI" ? canvasUrl : webglUrl;
     script.onload = function () {

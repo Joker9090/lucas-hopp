@@ -242,6 +242,7 @@
     let browser = "NOT-SAFARI"
     let searchParams = new URLSearchParams(window.location.search);
     let forceRive = Boolean(searchParams.get('forceRive'))
+    let forceCanvas = Boolean(searchParams.get('forceCanvas'))
 
     if (!navigator.userAgent.includes('Chrome') && navigator.userAgent.includes('Safari')) {
       browser = "SAFARI"
@@ -327,9 +328,9 @@
       }
     }
 
-    alert("v2 " + browser + " ForceRive: "+ forceRive)
+    alert("v4 " + browser + " ForceRive: "+ forceRive + " ForceCanvas: "+ forceCanvas)
     let script = document.createElement('script');
-    script.src = browser != "SAFARI" ? canvasUrl : webglUrl;
+    script.src = browser != "SAFARI" || forceCanvas ? canvasUrl : webglUrl;
     script.onload = function () {
       runRive()
       // Extras 

@@ -241,9 +241,9 @@
     let webglUrl = "https://unpkg.com/@rive-app/webgl@2.1.0"
 
     function runRive() {
-      let type = browser == "SAFARI" ? "rive" : "video";
+      let type = browser != "SAFARI" ? "rive" : "video";
       if (type == "rive") {
-        let videos = document.querySelectorAll(`#canvas video`)
+        let videos = document.querySelectorAll(`#canvas-0 video`)
         // remove videos
         videos.forEach((video) => {
           video.remove()
